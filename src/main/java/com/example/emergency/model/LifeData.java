@@ -115,14 +115,21 @@ public class LifeData {
 
     @Override
     public String toString() {
-        return "LifeData{" +
-                "date_time=" + dateTime +
-                ", temperature=" + temperature +
-                ", diastolic_pressure=" + diastolicPressure +
-                ", systolic_pressure=" + systolicPressure +
-                ", saturation=" + saturation +
-                ", pulse=" + pulse +
-                ", patient_id=" + patientId +
-                '}';
+        return "Patient_id: " + patientId + ",\n" +
+                "\t date_time: " + dateTime + ",\n" +
+                "\t temperature: " + temperature + ",\n" +
+                "\t diastolic_pressure: " + diastolicPressure + ",\n" +
+                "\t systolic_pressure: " + systolicPressure + ",\n" +
+                "\t saturation: " + saturation + ",\n" +
+                "\t pulse: " + pulse;
+//        return "LifeData{" +
+//                "date_time=" + dateTime +
+//                ", temperature=" + temperature +
+//                ", diastolic_pressure=" + diastolicPressure +
+//                ", systolic_pressure=" + systolicPressure +
+//                ", saturation=" + saturation +
+//                ", pulse=" + pulse +
+//                ", patient_id=" + patientId +
+//                '}';
     }
 }
