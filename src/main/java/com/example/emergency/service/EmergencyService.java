@@ -1,6 +1,7 @@
 package com.example.emergency.service;
 
 import com.example.emergency.dto.DoctorDTO;
+import com.example.emergency.dto.PatientDTO;
 import com.example.emergency.model.LifeData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -36,5 +37,12 @@ public class EmergencyService {
             doctorsPhoneList.add(doctorDTO.getPhone());
         }
         return doctorsPhoneList;
+    }
+
+    public PatientDTO getPatientById(Long id) {
+        return restTemplate.getForObject(
+                "http://localhost:8080/medicine/get-patient-by-id/" + id,
+                PatientDTO.class
+        );
     }
 }

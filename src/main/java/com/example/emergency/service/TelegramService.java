@@ -1,5 +1,7 @@
 package com.example.emergency.service;
 
+import com.example.emergency.converter.LifeDataConverter;
+import com.example.emergency.dto.LifeDataWithPatientNameDTO;
 import com.example.emergency.model.LifeData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TelegramService {
@@ -20,10 +23,21 @@ public class TelegramService {
     @Autowired
     private EmergencyService emergencyService;
 
+    @Autowired
+    private LifeDataConverter lifeDataConverter;
+
     public void sendMessage(List<LifeData> lifeDataList) throws MalformedURLException {
         HttpURLConnection con = null;
 
-        String txt = lifeDataList.toString();
+        List<LifeDataWithPatientNameDTO> lifeDataWithPatientNameDTOList = lifeDataList.stream()
+                .map(lifeDataConverter::toDTO)
+                .collect(Collectors.toList());
+
+        StringBuilder txt = new StringBuilder();
+        for (LifeDataWithPatientNameDTO lifeDataWithPatientNameDTO : lifeDataWithPatientNameDTOList) {
+            txt.append(lifeDataWithPatientNameDTO.toString());
+        }
+        String text = txt.toString();
 
         List<String> doctorsTelegramList = emergencyService.getDoctorsTelegram(lifeDataList);
 
@@ -32,7 +46,7 @@ public class TelegramService {
             String tgToken = tgTokenChatId[0];
             String chatId = tgTokenChatId[1];
             String urlToken = "https://api.telegram.org/bot" + tgToken + "/sendMessage";
-            String urlParameters = "chat_id=" + chatId + "&text=" + txt;
+            String urlParameters = "chat_id=" + chatId + "&text=" + text;
             byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
             try {
 
